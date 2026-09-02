@@ -1,5 +1,5 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage[margin=2.1cm]{geometry}
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=2.0cm]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \graphicspath{{../figures/}{./}}
@@ -30,35 +30,25 @@ The study uses daily observations on the CBOE Volatility Index (VIX) and the S\&
 Composite Index over \textbf{3 January 2012 to 21 August 2026}, giving
 \textbf{3,680 matched trading days}.
 
-No single free provider covers both series: CBOE publishes the complete VIX history at
-no charge but does not publish S\&P~500 index history. \citet{fernandes2014} state no
-data source at all, and \citet{wen2024} use OptionMetrics IvyDB and Tonghuashun---both
-paid subscriptions, and both options databases rather than index sources.
-\citet{liu2015} face the same constraint, take both series from Yahoo Finance, and
-report that comparing Yahoo's VIX against CBOE's shows ``only very minor differences for
-a few days.'' Accordingly the VIX is taken from CBOE's official file and the S\&P~500
-from Yahoo Finance (\texttt{\^{}GSPC}); the Yahoo VIX was also downloaded, solely to
-replicate that validation on the present sample.
+The VIX is taken from CBOE's official history file and the S\&P~500 from Yahoo Finance
+(\texttt{\^{}GSPC}). No single free provider covers both series, since CBOE does not
+publish index history---the same constraint \citet{liu2015} document. The Yahoo VIX was
+also downloaded and validated against CBOE's: the two agree exactly, to two decimal
+places, on \textbf{99.76\%} of the 3,681 common dates, with a correlation of 0.99997 and
+nine days differing by more than 0.01. This reproduces the conclusion of \citet{liu2015}
+on more recent data; the CBOE series is nonetheless used throughout, since it is
+authoritative and freely available.
 
-Across the 3,681 common dates the two VIX providers agree exactly, to two decimal
-places, on \textbf{99.76\%} of observations; nine days differ by more than 0.01 and the
-correlation is 0.99997, reproducing the conclusion of \citet{liu2015} on more recent
-data. The one material exception is 6~February~2026, where Yahoo reports 20.37 against
-CBOE's 17.76. The S\&P~500 rose 1.95\% that day and CBOE's path
-($21.77 \rightarrow 17.76 \rightarrow 17.36$) is consistent with the rally while Yahoo's
-is not, so the CBOE series is used throughout.
-
-The calendars were compared before merging rather than letting an inner join discard
+Calendars were compared before merging rather than letting an inner join discard
 mismatches silently. CBOE reports a VIX close on 32 dates on which the NYSE cash market
-was closed---US market holidays, concentrated from 2022 onward. These are genuine index
-values, since VIX is calculated from SPX option quotes disseminated in sessions that need
-not coincide with equity trading hours, but no matched return can be formed on those days
-and they are excluded. Neither series contains internal missing values or duplicate
+was closed, VIX being calculated from SPX option quotes disseminated in sessions that
+need not coincide with equity trading hours; no matched return can be formed on those
+days and they are excluded. Neither series contains internal missing values or duplicate
 dates, and the largest gap between consecutive observations is the five-day NYSE closure
-for Hurricane Sandy ending 31~October~2012, left unimputed. Returns are computed
-as $r_t = 100\,[\ln(P_t) - \ln(P_{t-1})]$ on the \emph{full} price history before the
-sample is truncated, so the first in-sample return is measured against the
-30~December~2011 close rather than being undefined.
+for Hurricane Sandy ending 31~October~2012, left unimputed. Returns are computed as
+$r_t = 100\,[\ln(P_t) - \ln(P_{t-1})]$ on the \emph{full} price history before the sample
+is truncated, so the first in-sample return is measured against the 30~December~2011
+close rather than being undefined.
 
 \section{Descriptive statistics}
 
@@ -173,14 +163,12 @@ Long-run annualised volatility & \multicolumn{3}{l}{15.95} \\
 
 All three variance parameters are significant at any conventional level, with
 $\alpha, \beta > 0$ and $\alpha + \beta < 1$, so the non-negativity and stationarity
-conditions hold. $\omega = 0.0431$ is the constant floor of the variance equation;
-combined with the persistence it implies a long-run daily variance of
-$\omega/(1-\alpha-\beta) = 1.010$ and an annualised long-run volatility of 15.95, close
-to the sample standard deviation of returns as it should be. $\alpha = 0.167$ is the
-reaction coefficient---an unexpected move raises today's variance by 16.7\% of the
-squared surprise---while $\beta = 0.791$ is the carry-over from yesterday's variance,
-the most precisely estimated parameter in the model ($t = 30.9$) and the one that
-dominates the dynamics.
+conditions hold. $\omega = 0.0431$ is the constant floor of the variance equation, implying
+a long-run daily variance of $\omega/(1-\alpha-\beta) = 1.010$ and an annualised long-run
+volatility of 15.95---close to the sample standard deviation of returns, as it should be.
+$\alpha = 0.167$ is the reaction coefficient, raising today's variance by 16.7\% of the
+squared surprise, while $\beta = 0.791$ is the carry-over from yesterday's variance, the
+most precisely estimated parameter ($t = 30.9$) and the one that dominates the dynamics.
 
 $\alpha + \beta = 0.9573$ is the quantity of interest. It lies below unity, so variance
 is mean-reverting, but is high enough that shocks decay slowly: the half-life is
@@ -207,13 +195,13 @@ risk premium}: VIX is a risk-neutral expectation extracted from option prices an
 compensation demanded for bearing volatility risk, whereas GARCH, estimated from realised
 returns alone, delivers only the physical forecast. \citet{liu2015} report their
 GARCH-computed VIX running 20--30\% below the market VIX before September 2003 and
-10--13\% below afterwards, interpreting precisely that shortfall as a variance risk
-premium; the 22\% found here on 2012--2026 data falls in the same range. The exception is
-instructive: GARCH exceeds VIX on 13.3\% of days, and the largest overshoot---44 points
-on 17~March~2020---follows directly from the $-12.77\%$ return of 16~March, since
-$\sigma_t^2$ depends on $\epsilon_{t-1}^2$ and a single extreme return is mechanically
-propagated into the next day's variance. Annualised GARCH volatility reached 120 while
-VIX, already pricing an eventual return to calm, stood at 75.9.
+10--13\% afterwards, interpreting that shortfall the same way; the 22\% found here on
+2012--2026 data falls in the same range. GARCH exceeds VIX on the remaining 13.3\% of
+days, the largest overshoot---44 points on 17~March~2020---following directly from the
+$-12.77\%$ return of 16~March, since $\sigma_t^2$ depends on $\epsilon_{t-1}^2$ and a
+single extreme return is mechanically propagated into the next day's variance. GARCH
+reached an annualised 120 while VIX, already pricing an eventual return to calm, stood
+at 75.9.
 
 In levels the two series move together closely: Pearson 0.833, Spearman 0.730, and 0.793
 in logarithms, stable across sub-periods and strongest during 2020--2022 (0.889). In
@@ -233,53 +221,46 @@ $\mathrm{corr}(\Delta\sigma^{\text{GARCH}}_{t+k},\, \Delta \text{VIX}_t)$
 \end{table}
 
 \noindent
-The correlation is near zero contemporaneously and $+0.41$ at a one-day lag. The reason
-is structural: $\sigma_t$ is a function of information dated $t-1$ and cannot respond to
-today's news until tomorrow, whereas VIX is priced off current option quotes and responds
+The correlation is near zero contemporaneously and $+0.41$ at a one-day lag. The reason is
+structural: $\sigma_t$ is a function of information dated $t-1$ and cannot respond to
+today's news until tomorrow, whereas VIX is priced off current quotes and responds
 immediately. The two measures agree about the \emph{level} of volatility but learn about
-\emph{changes} one day apart. This bears directly on the project: a predictor that merely
-tracked VIX would be redundant, whereas GARCH volatility is strongly related in levels,
-reacts on a different schedule, and differs by a systematic risk-premium wedge that VIX
-contains by construction and GARCH cannot. Whether that survives as \emph{incremental}
-predictive power once VIX's own history is conditioned upon is the question for the
-forecasting stage, and the ACF result above shows the own-history baseline to be a
-demanding one.
+\emph{changes} one day apart. This bears directly on the project: GARCH volatility is not
+a proxy for VIX but reacts on a different schedule and carries a systematic risk-premium
+wedge. Whether that survives as \emph{incremental} predictive power once VIX's own history
+is conditioned upon is the question for the forecasting stage.
 
 \section{Conclusions}
 
-\textbf{Is VIX highly persistent?} Yes. First-order autocorrelation is 0.961, still
-0.563 after one month and 0.337 after a quarter, with the ACF outside the white-noise
-band as far as lag 250. Decay is hyperbolic rather than geometric. VIX is nonetheless
-stationary ($\text{ADF} = -5.560$, $p = 1.5\times10^{-6}$).
+\textbf{Is VIX highly persistent?} Yes. First-order autocorrelation is 0.961, still 0.563
+after one month and 0.337 after a quarter, with the ACF outside the white-noise band as
+far as lag 250 and decaying hyperbolically. It is nonetheless stationary
+($\text{ADF} = -5.560$, $p = 1.5\times10^{-6}$).
 
-\textbf{Is there volatility clustering in S\&P 500 returns?} Yes, unambiguously. Raw
-returns are near-unforecastable, but squared returns are autocorrelated at 0.449 at lag~1
-and remain positive beyond lag~20. Ljung--Box gives $Q(10) = 3{,}955$ on squared returns
-against 236 on raw returns, and ARCH-LM returns $\text{LM} = 1{,}109$ with
-$p \approx 10^{-237}$.
+\textbf{Is there volatility clustering in S\&P 500 returns?} Yes, unambiguously. Squared
+returns are autocorrelated at 0.449 at lag~1 and remain positive beyond lag~20 while raw
+returns are near-unforecastable; Ljung--Box gives $Q(10) = 3{,}955$ against 236, and
+ARCH-LM returns $\text{LM} = 1{,}109$ with $p \approx 10^{-237}$.
 
 \textbf{Is GARCH volatility highly persistent?} Yes. $\alpha+\beta = 0.9573$ implies a
-half-life of 15.9 trading days. The process is stationary, with a long-run annualised
-volatility of 15.95. Under Student-$t$ errors persistence rises to 0.984.
+half-life of 15.9 trading days, with a long-run annualised volatility of 15.95; under
+Student-$t$ errors persistence rises to 0.984.
 
 \textbf{How closely do VIX and GARCH volatility move together?} Closely in levels
 (Pearson 0.833), hardly at all in daily changes ($-0.007$). The lead--lag correlation of
-$+0.410$ at one day shows that GARCH responds to the same information one day later,
-because $\sigma_t$ conditions on data through $t-1$ while VIX is priced off current
-quotes.
+$+0.410$ at one day shows GARCH responding to the same information a day later, because
+$\sigma_t$ conditions on data through $t-1$ while VIX is priced off current quotes.
 
-\textbf{What is the main difference between VIX and GARCH volatility?} They are
-different objects rather than competing estimates of the same one. VIX is
-forward-looking, extracted from option prices, and expresses the market's expectation of
-volatility over the coming 30 calendar days, whereas GARCH volatility is backward-looking
-and computed mechanically from the history of realised returns. VIX is risk-neutral and
-therefore includes a variance risk premium, evident in the 22\% average wedge; GARCH is a
-physical-measure forecast and includes none. VIX also reprices within the trading day
-while GARCH cannot move until the day after a shock---the source of both the one-day lag
-in the change correlation and the March~2020 episode, in which GARCH extrapolated the
-crash to an annualised 120 while VIX peaked at 82.7.
+\textbf{What is the main difference between VIX and GARCH volatility?} They are different
+objects rather than competing estimates of the same one. VIX is forward-looking and
+risk-neutral, extracted from option prices and therefore carrying a variance risk
+premium---the 22\% wedge---and it reprices within the trading day. GARCH volatility is
+backward-looking, computed mechanically from realised returns under the physical measure,
+and cannot move until the day after a shock.
 
+\enlargethispage{2.5\baselineskip}
 \begin{thebibliography}{9}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
 \bibitem[Fernandes et al.(2014)]{fernandes2014}
 Fernandes, M., Medeiros, M.~C., \& Scharth, M. (2014). Modeling and predicting the CBOE
 market volatility index. \textit{Journal of Banking \& Finance}, 40, 1--10.
