@@ -193,10 +193,11 @@ VIX exceeds annualised GARCH volatility on \textbf{86.7\%} of days, by an averag
 of 17.75). A discrepancy this one-sided is not estimation error but the \textbf{variance
 risk premium}: VIX is a risk-neutral expectation extracted from option prices and embeds
 compensation demanded for bearing volatility risk, whereas GARCH, estimated from realised
-returns alone, delivers only the physical forecast. \citet{liu2015} report their
-GARCH-computed VIX running 20--30\% below the market VIX before September 2003 and
-10--13\% afterwards, interpreting that shortfall the same way; the 22\% found here on
-2012--2026 data falls in the same range. GARCH exceeds VIX on the remaining 13.3\% of
+returns alone, delivers only the physical forecast. \citet{liu2015} document the same shortfall and read it the same
+way, reporting their GARCH-computed VIX 20--30\% below the market VIX before September
+2003 and 10--13\% below afterwards. The 22\% here exceeds that post-2003 figure, which
+is the relevant comparison for a 2012--2026 sample; they also compare a one-day-ahead
+GARCH \emph{forecast} of VIX rather than annualised conditional volatility. GARCH exceeds VIX on the remaining 13.3\% of
 days, the largest overshoot---44 points on 17~March~2020---following directly from the
 $-12.77\%$ return of 16~March, since $\sigma_t^2$ depends on $\epsilon_{t-1}^2$ and a
 single extreme return is mechanically propagated into the next day's variance. GARCH
@@ -204,7 +205,8 @@ reached an annualised 120 while VIX, already pricing an eventual return to calm,
 at 75.9.
 
 In levels the two series move together closely: Pearson 0.833, Spearman 0.730, and 0.793
-in logarithms, stable across sub-periods and strongest during 2020--2022 (0.889). In
+in logarithms, ranging across four-year sub-periods from 0.663 (2012--2015) to 0.889
+(2020--2022) --- strongest in the turbulent window, weakest in the calm stretches. In
 daily \emph{changes}, however, the correlation collapses to $-0.007$. The lead--lag
 profile resolves the apparent conflict:
 
@@ -247,7 +249,8 @@ half-life of 15.9 trading days, with a long-run annualised volatility of 15.95; 
 Student-$t$ errors persistence rises to 0.984.
 
 \textbf{How closely do VIX and GARCH volatility move together?} Closely in levels
-(Pearson 0.833), hardly at all in daily changes ($-0.007$). The lead--lag correlation of
+(Pearson 0.833, ranging 0.663--0.889 across four-year sub-periods), hardly at all in
+daily changes ($-0.007$). The lead--lag correlation of
 $+0.410$ at one day shows GARCH responding to the same information a day later, because
 $\sigma_t$ conditions on data through $t-1$ while VIX is priced off current quotes.
 
@@ -258,7 +261,7 @@ premium---the 22\% wedge---and it reprices within the trading day. GARCH volatil
 backward-looking, computed mechanically from realised returns under the physical measure,
 and cannot move until the day after a shock.
 
-\enlargethispage{2.5\baselineskip}
+\enlargethispage{4.5\baselineskip}
 \begin{thebibliography}{9}
 \setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
 \bibitem[Fernandes et al.(2014)]{fernandes2014}

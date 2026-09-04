@@ -4,7 +4,7 @@ from statsmodels.tsa.stattools import adfuller, acf
 from statsmodels.stats.diagnostic import acorr_ljungbox, het_arch
 from arch import arch_model
 
-df = pd.read_csv("data/stage2_final.csv", index_col=0, parse_dates=True)
+df = pd.read_csv("data/raw/stage2_final.csv", index_col=0, parse_dates=True)
 r, v, g = df["ret"], df["VIX"], df["garch_vol_ann"]
 res = arch_model(r, mean="Constant", vol="GARCH", p=1, q=1, dist="normal").fit(disp="off")
 rt  = arch_model(r, mean="Constant", vol="GARCH", p=1, q=1, dist="t").fit(disp="off")
